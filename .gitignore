@@ -1,3 +1,5 @@
 .env
 json.json
 videos
+*pyc
+__pycache__
