@@ -55,3 +55,13 @@ def save_video_data(video_id: str) -> t.transcript:
     }
     save_txt_legivel(dados, f"../legendas/{filename}")
     return transcript
+
+
+def filter_transcript(transcript: t.transcript, keywords: list[str]):
+    filtered_transcript = list(
+        filter(
+            lambda x: any(keyword in x["text"].lower() for keyword in keywords),
+            transcript,
+        )
+    )
+    return filtered_transcript, [item["start"] for item in filtered_transcript]
