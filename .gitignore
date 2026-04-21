@@ -1,5 +1,5 @@
 .env
 json.json
-videos
+videos inteiros
 *pyc
 __pycache__

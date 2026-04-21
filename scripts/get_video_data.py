@@ -1,6 +1,8 @@
 from googleapiclient.discovery import build
 import os
 from youtube_transcript_api import YouTubeTranscriptApi
+import tipagem as t
+
 
 def get_video_info(video_id):
     youtube = build("youtube", "v3", developerKey=os.getenv("YOUTUBE_API_KEY"))
@@ -16,7 +18,7 @@ def get_video_info(video_id):
     }
 
 
-def get_transcript(video_id):
+def _get_transcript(video_id):
     transcript = YouTubeTranscriptApi().fetch(video_id, languages=["pt", "pt-BR", "en"])
     transcript = (
         transcript.to_raw_data() if hasattr(transcript, "to_raw_data") else transcript
@@ -41,15 +43,15 @@ def save_txt_legivel(dados, filename):
         f.write(conteudo)
 
 
-def save_video_data(video_id):
+def save_video_data(video_id: str) -> t.transcript:
     info = get_video_info(video_id)
-    titulo_limpo = "".join(
-        c for c in info["title"] if c not in "\\/:*?\"<>|"
-    ).strip()
+    titulo_limpo = "".join(c for c in info["title"] if c not in '\\/:*?"<>|').strip()
     filename = f"{titulo_limpo}.txt"
+    transcript = _get_transcript(video_id)
     dados = {
         "titulo": info["title"],
         "descricao": info["description"],
-        "legenda": formatar_legenda(get_transcript(video_id)),
+        "legenda": formatar_legenda(transcript),
     }
-    save_txt_legivel(dados, f"./legendas/{filename}")
+    save_txt_legivel(dados, f"../legendas/{filename}")
+    return transcript
