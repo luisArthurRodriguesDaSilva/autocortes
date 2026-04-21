@@ -14,3 +14,4 @@ def download_video_smalest_resolution(video_id: str):
     url = f"https://www.youtube.com/watch?v={video_id}"
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
+
