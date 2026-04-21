@@ -1,0 +1,74 @@
+{
+  "kind": "youtube#video",
+  "etag": "4ywh5ldcITA-Uqt7YwUFeZbYhVQ",
+  "id": "juVH5icGiE0",
+  "snippet": {
+    "publishedAt": "2026-04-14T15:04:45Z",
+    "channelId": "UCvO2BExvkAbGMsTGnEnI_Ng",
+    "title": "Presidente Lula concede entrevista para o Brasil 247, Revista F\u00f3rum e DCM",
+    "description": "SIGA O LULA!\n\nhttp://www.facebook.com/Lula\nhttps://bsky.app/profile/lula.com.br\nhttp://www.instagram.com/LulaOficial\nhttps://t.me/LulanoTelegram\n\nAcesse nosso site: http://www.lula.com.br",
+    "thumbnails": {
+      "default": {
+        "url": "https://i.ytimg.com/vi/juVH5icGiE0/default.jpg",
+        "width": 120,
+        "height": 90
+      },
+      "medium": {
+        "url": "https://i.ytimg.com/vi/juVH5icGiE0/mqdefault.jpg",
+        "width": 320,
+        "height": 180
+      },
+      "high": {
+        "url": "https://i.ytimg.com/vi/juVH5icGiE0/hqdefault.jpg",
+        "width": 480,
+        "height": 360
+      },
+      "standard": {
+        "url": "https://i.ytimg.com/vi/juVH5icGiE0/sddefault.jpg",
+        "width": 640,
+        "height": 480
+      },
+      "maxres": {
+        "url": "https://i.ytimg.com/vi/juVH5icGiE0/maxresdefault.jpg",
+        "width": 1280,
+        "height": 720
+      }
+    },
+    "channelTitle": "Lula",
+    "tags": [
+      "Lula",
+      "PT",
+      "Elei\u00e7\u00f5es 2022",
+      "Bolsonaro",
+      "aux\u00edlio emergencial",
+      "entrevista lula",
+      "discurso lula",
+      "elei\u00e7\u00f5es 2022",
+      "lula presidente",
+      "lula inocente",
+      "lula e dilma rousseff",
+      "fala lula 7 de setembro",
+      "lula fala ao brasiil",
+      "fora bolsonaro",
+      "lula critica bolsonaro",
+      "Lula na Bahia",
+      "Lula em Salvador",
+      "A TARDE FM",
+      "FM 103.9"
+    ],
+    "categoryId": "25",
+    "liveBroadcastContent": "none",
+    "defaultLanguage": "pt-PT",
+    "localized": {
+      "title": "Presidente Lula concede entrevista para o Brasil 247, Revista F\u00f3rum e DCM",
+      "description": "SIGA O LULA!\n\nhttp://www.facebook.com/Lula\nhttps://bsky.app/profile/lula.com.br\nhttp://www.instagram.com/LulaOficial\nhttps://t.me/LulanoTelegram\n\nAcesse nosso site: http://www.lula.com.br"
+    },
+    "defaultAudioLanguage": "pt-BR"
+  },
+  "statistics": {
+    "viewCount": "179952",
+    "likeCount": "21982",
+    "favoriteCount": "0",
+    "commentCount": "1966"
+  }
+}
