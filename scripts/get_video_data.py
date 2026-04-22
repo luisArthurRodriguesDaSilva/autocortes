@@ -64,4 +64,15 @@ def filter_transcript(transcript: t.transcript, keywords: list[str]):
             transcript,
         )
     )
-    return filtered_transcript, [item["start"] for item in filtered_transcript]
+    marked_trascripts = list(
+        map(
+            lambda x: {
+                **x,
+                "contained_keywords": [
+                    keyword for keyword in keywords if keyword in x["text"].lower()
+                ],
+            },
+            filtered_transcript,
+        )
+    )
+    return marked_trascripts, [item["start"] for item in filtered_transcript]
