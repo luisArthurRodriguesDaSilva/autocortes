@@ -10,7 +10,7 @@ def _contem_palavra_chave(item: t.DictTranscript, keywords: List[str]) -> bool:
 
 def filter_transcript_by_keywords(
     dict_transcript: List[t.DictTranscript], keywords: List[str]
-) -> Tuple[List[t.DictKeywordedItem], List[float]]:
+) -> List[t.DictKeywordedItem]:
 
     filtrados = [
         item for item in dict_transcript if _contem_palavra_chave(item, keywords)
@@ -30,10 +30,11 @@ def filter_transcript_by_keywords(
 
     return filtered_moments_with_keywords
 
+#talvez seja bom fazer isso ignorando as palavras chave pois caso duas diferentes estejam muito proximas vai gerar um contexto redundante do mesmo jeito
 
-def remove_next_appearances(
+def remove_redundant_appearances( 
     dictTranscripts: List[t.DictKeywordedItem], tolerance_seconds: float = 30.0
-) -> List[t.DictTranscript]:
+) -> List[t.DictKeywordedItem]:
     dicionario_vigiador = {}
     resultado: List[t.DictKeywordedItem] = []
 
@@ -49,7 +50,7 @@ def remove_next_appearances(
 
     return resultado
 
-def format_to_context_trascript(dict_transcript: List[t.DictTranscript]) -> str:
+def format_to_context_trascript(dict_transcript: List[t.DictKeywordedItem]) -> str:
     """Formata transcrição como texto legível"""
     return "\n".join(
         [f"[{item['inicio']:.2f}] {item['texto']}" for item in dict_transcript]
