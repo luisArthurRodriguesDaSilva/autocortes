@@ -4,14 +4,10 @@ from enum import Enum
 
 
 # ===== Tipos de Legendas =====
-@dataclass(frozen=True)
-class Legenda:
-    """Representa uma legenda individual do vídeo"""
 
-    tempo_inicio: float
-    tempo_fim: float
+class Legenda(TypedDict):
+    inicio: float
     texto: str
-    indice: int
 
 
 @dataclass
@@ -78,3 +74,22 @@ ProcessadorLegendas = Callable[[List[Legenda], List[str]], List[AmostraLegendas]
 ValidadorQualidade = Callable[[AmostraLegendas], bool]
 AvaliadorChatGPT = Callable[[AmostraLegendas, str], RespostaChatGPT]
 GeradorPrompt = Callable[[AmostraLegendas], str]
+
+
+class TranscriptItem(TypedDict):
+    text: str
+    start: float
+    duration: float
+
+
+transcript = List[TranscriptItem]
+
+
+class VideoInfo(TypedDict):
+    title: str
+    description: str
+
+class complete_video_info(VideoInfo):
+    text_transcript: str
+
+    
