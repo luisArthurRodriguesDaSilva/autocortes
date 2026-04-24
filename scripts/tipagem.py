@@ -3,20 +3,20 @@ from dataclasses import dataclass, field
 from enum import Enum
 
 
-# ===== Tipos de Legendas =====
+# ===== Tipos de DictTranscripts =====
 
-class Legenda(TypedDict):
+class DictTranscript(TypedDict):
     inicio: float
     texto: str
 
 
 @dataclass
-class AmostraLegendas:
-    """Amostra de legendas com contexto (±30s da palavra-chave)"""
+class AmostraDictTranscripts:
+    """Amostra de DictTranscripts com contexto (±30s da palavra-chave)"""
 
-    legendas_antes: List[Legenda]
-    legenda_principal: Legenda
-    legendas_depois: List[Legenda]
+    DictTranscripts_antes: List[DictTranscript]
+    DictTranscript_principal: DictTranscript
+    DictTranscripts_depois: List[DictTranscript]
     palavras_chave: List[str]
     tempo_contexto_antes: float
     tempo_contexto_depois: float
@@ -37,7 +37,7 @@ class QualidadeCorte(str, Enum):
 
 
 class TipoBuscaContext(str, Enum):
-    """Tipos de contexto a buscar nas legendas"""
+    """Tipos de contexto a buscar nas DictTranscripts"""
 
     ANTES = "antes"
     DEPOIS = "depois"
@@ -70,10 +70,10 @@ class ConfiguracaoCorte(TypedDict):
 
 
 # ===== Tipos de Funções =====
-ProcessadorLegendas = Callable[[List[Legenda], List[str]], List[AmostraLegendas]]
-ValidadorQualidade = Callable[[AmostraLegendas], bool]
-AvaliadorChatGPT = Callable[[AmostraLegendas, str], RespostaChatGPT]
-GeradorPrompt = Callable[[AmostraLegendas], str]
+ProcessadorDictTranscripts = Callable[[List[DictTranscript], List[str]], List[AmostraDictTranscripts]]
+ValidadorQualidade = Callable[[AmostraDictTranscripts], bool]
+AvaliadorChatGPT = Callable[[AmostraDictTranscripts, str], RespostaChatGPT]
+GeradorPrompt = Callable[[AmostraDictTranscripts], str]
 
 
 class TranscriptItem(TypedDict):
@@ -85,6 +85,7 @@ class TranscriptItem(TypedDict):
 transcript = List[TranscriptItem]
 
 
+
 class VideoInfo(TypedDict):
     title: str
     description: str
@@ -92,4 +93,6 @@ class VideoInfo(TypedDict):
 class complete_video_info(VideoInfo):
     text_transcript: str
 
+class DictKeywordedItem(DictTranscript):
+    keywords: List[str]
     

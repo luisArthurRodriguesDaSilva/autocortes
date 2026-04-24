@@ -29,8 +29,8 @@ def get_transcript(video_id: str) -> t.transcript:
     )
 
 
-def format_to_dict_transcript(transcript: t.transcript) -> List[t.Legenda]:
-    """Converte transcript em objetos Legenda"""
+def format_to_dict_transcript(transcript: t.transcript) -> List[t.DictTranscript]:
+    """Converte transcript em objetos DictTranscript"""
     return [
         {"inicio": float(item["start"]), "texto": item["text"]} for item in transcript
     ]
@@ -38,7 +38,10 @@ def format_to_dict_transcript(transcript: t.transcript) -> List[t.Legenda]:
 
 def format_to_text_trascript(transcript: t.transcript) -> str:
     """Formata transcrição como texto legível"""
-    return "\n".join([f"[{item['start']:.2f}] {item['text']}" for item in transcript])
+    dict_transcript = format_to_dict_transcript(transcript)
+    return "\n".join(
+        [f"[{item['inicio']:.2f}] {item['texto']}" for item in dict_transcript]
+    )
 
 
 def remove_invalid_caracters(titulo: str) -> str:
@@ -69,7 +72,7 @@ def format_to_video_info_file_content(complete_info: t.complete_video_info) -> s
     )
 
 
-def save_complete_info(caminho: str, complete_info : t.complete_video_info) -> None:
+def save_complete_info(caminho: str, complete_info: t.complete_video_info) -> None:
     """Salva conteúdo em arquivo"""
     file_content = format_to_video_info_file_content(complete_info)
     os.makedirs(os.path.dirname(caminho), exist_ok=True)
@@ -77,49 +80,48 @@ def save_complete_info(caminho: str, complete_info : t.complete_video_info) -> N
         f.write(file_content)
 
 
-#def salvar_dados_video(
-#    video_id: str, diretorio: str = "../legendas/"
-#) -> List[t.Legenda]:
-#    """Pipeline completo: obtém dados e salva arquivo"""
-#    info = _get_info_video(video_id)
-#    transcript = get_transcript(video_id)
-#
-#    titulo_limpo = remove_invalid_caracters(info["title"])
-#    caminho_arquivo = f"{diretorio}{titulo_limpo}.txt"
-#
-#    legenda_texto = formatar_legenda_texto(transcript)
-#    conteudo = format_to_video_info_file_content(info, legenda_texto)
-#
-#    salvar_arquivo(caminho_arquivo, conteudo)
-#
-#    return converter_para_legendas(transcript)
+def _contem_palavra_chave(item: t.DictTranscript, keywords: List[str]) -> bool:
+    return any(keyword.lower() in item["texto"].lower() for keyword in keywords)
 
-def _contem_palavra_chave(item: t.TranscriptItem, keywords: List[str]) -> bool:
-        return any(
-            keyword.lower() in item["text"].lower() 
-            for keyword in keywords
-        )
 
 def filter_transcript_by_keywords(
     transcript: t.transcript, keywords: List[str]
-) -> Tuple[List[t.TranscriptItem], List[float]]:
+) -> Tuple[List[t.DictKeywordedItem], List[float]]:
 
-    
-
-    filtrados = [item for item in transcript if _contem_palavra_chave(item, keywords)]
+    dict_transcript = format_to_dict_transcript(transcript)
+    filtrados = [
+        item for item in dict_transcript if _contem_palavra_chave(item, keywords)
+    ]
 
     filtered_moments_with_keywords = [
         {
             **item,
-            "contained_keywords": [
+            "keywords": [
                 keyword
                 for keyword in keywords
-                if keyword.lower() in item["text"].lower()
+                if keyword.lower() in item["texto"].lower()
             ],
         }
         for item in filtrados
     ]
 
-    tempos = [item["start"] for item in filtrados]
+    return filtered_moments_with_keywords
 
-    return filtered_moments_with_keywords, tempos
+
+def remove_next_appearances(
+    dictTranscripts: List[t.DictKeywordedItem], tolerance_seconds: float = 30.0
+) -> List[t.DictTranscript]:
+    dicionario_vigiador = {}
+    resultado: List[t.DictKeywordedItem] = []
+
+    for transcript in dictTranscripts:
+        keywords = transcript.get("keywords")
+        for keyword in keywords:
+            last_appear = dicionario_vigiador.get(keyword)
+            if last_appear is None or (
+                tolerance_seconds <= transcript["inicio"] - last_appear
+            ):
+                dicionario_vigiador[keyword] = transcript["inicio"]
+                resultado.append(transcript)
+
+    return resultado
