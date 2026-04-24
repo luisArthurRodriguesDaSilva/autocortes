@@ -94,26 +94,27 @@ def save_complete_info(caminho: str, complete_info : t.complete_video_info) -> N
 #
 #    return converter_para_legendas(transcript)
 
-
-def filtrar_por_palavras_chave(
-    transcript: t.transcript, palavras_chave: List[str]
-) -> Tuple[List[t.TranscriptItem], List[float]]:
-    """Filtra transcrição por palavras-chave"""
-
-    def contem_palavra_chave(item: t.TranscriptItem) -> bool:
+def _contem_palavra_chave(item: t.TranscriptItem, keywords: List[str]) -> bool:
         return any(
-            palavra.lower() in item["text"].lower() for palavra in palavras_chave
+            keyword.lower() in item["text"].lower() 
+            for keyword in keywords
         )
 
-    filtrados = [item for item in transcript if contem_palavra_chave(item)]
+def filter_transcript_by_keywords(
+    transcript: t.transcript, keywords: List[str]
+) -> Tuple[List[t.TranscriptItem], List[float]]:
 
-    marcados = [
+    
+
+    filtrados = [item for item in transcript if _contem_palavra_chave(item, keywords)]
+
+    filtered_moments_with_keywords = [
         {
             **item,
             "contained_keywords": [
-                palavra
-                for palavra in palavras_chave
-                if palavra.lower() in item["text"].lower()
+                keyword
+                for keyword in keywords
+                if keyword.lower() in item["text"].lower()
             ],
         }
         for item in filtrados
@@ -121,4 +122,4 @@ def filtrar_por_palavras_chave(
 
     tempos = [item["start"] for item in filtrados]
 
-    return marcados, tempos
+    return filtered_moments_with_keywords, tempos
