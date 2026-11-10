@@ -4,6 +4,7 @@ from get_video_data import save_video_data
 from get_video_data import filter_transcript
 from download_video import download_video_smalest_resolution
 
+#un testito con el nuevo sistem
 
 def cut_video(input_file : str, start_time : float, end_time : float, present_keywords: list[str]):
     filename = os.path.basename(input_file)
