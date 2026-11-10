@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from moviepy import VideoFileClip
-
+#teste2e
 from download_video import download_video_smalest_resolution
 from find_keywords import (
     filter_transcript_by_keywords,
@@ -24,7 +24,6 @@ def filter_transcript(transcript_data, keywords: list[str]):
     )
     starts = [item["inicio"] for item in filtered_transcripts]
     return filtered_transcripts, starts
-
 
 def cut_video(
     input_file: str,
