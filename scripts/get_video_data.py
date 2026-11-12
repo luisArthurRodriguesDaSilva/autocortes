@@ -1,4 +1,4 @@
-from googleapiclient.discovery import build
+#from googleapiclient.discovery import build
 from youtube_transcript_api import YouTubeTranscriptApi
 from typing import List, Dict, Tuple, Callable
 import os
@@ -6,9 +6,8 @@ import sys
 import tipagem as t
 
 
-def _get_info_video(video_id: str) -> t.VideoInfo:
-    """Obtém informações do vídeo do YouTube"""
-    youtube = build("youtube", "v3", developerKey=os.getenv("YOUTUBE_API_KEY"))
+""" def _get_info_video(video_id: str) -> t.VideoInfo:
+    #youtube = build("youtube", "v3", developerKey=os.getenv("YOUTUBE_API_KEY"))
     resp = youtube.videos().list(part="snippet,statistics", id=video_id).execute()
 
     if "items" not in resp or len(resp["items"]) == 0:
@@ -18,7 +17,7 @@ def _get_info_video(video_id: str) -> t.VideoInfo:
     return {
         "title": item["snippet"]["title"],
         "description": item["snippet"]["description"],
-    }
+    } """
 
 
 def get_transcript(video_id: str) -> t.transcript:
@@ -51,7 +50,7 @@ def remove_invalid_caracters(titulo: str) -> str:
 
 def get_completed_video_info(video_id: str) -> t.complete_video_info:
     """Obtém informações completas do vídeo, incluindo título, descrição e transcrição formatada"""
-    info = _get_info_video(video_id)
+    #info = _get_info_video(video_id)
     transcript = get_transcript(video_id)
     transcript_text = format_to_text_trascript(transcript)
     return {

@@ -9,4 +9,4 @@ def message_gpt(message: str, model: str = "gpt-5-nano") -> str:
     response = client.chat.completions.create(
         model=model, messages=[{"role": "user", "content": message}]
     )
-    return response.choices[0].message.content
+    return response.choices[0].message.contnt
